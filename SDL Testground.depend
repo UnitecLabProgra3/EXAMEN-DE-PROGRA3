@@ -1,0 +1,58 @@
+# depslib dependency file v1.0
+1383634348 source:c:\users\guillermo sandoval\documents\github\labsemana2animacion\bomba.cpp
+	"bomba.h"
+
+1383634273 c:\users\guillermo sandoval\documents\github\labsemana2animacion\bomba.h
+	"Enemygo.h"
+
+1383634278 c:\users\guillermo sandoval\documents\github\labsemana2animacion\enemygo.h
+	"SDL.h"
+	"SDL_image.h"
+	"Personaje.h"
+	<vector>
+
+1383634068 c:\users\guillermo sandoval\documents\github\labsemana2animacion\personaje.h
+	"SDL.h"
+	"SDL_image.h"
+	<string>
+	<vector>
+
+1383634356 source:c:\users\guillermo sandoval\documents\github\labsemana2animacion\cocodrilo.cpp
+	"Cocodrilo.h"
+
+1383634348 c:\users\guillermo sandoval\documents\github\labsemana2animacion\cocodrilo.h
+	"Enemygo.h"
+
+1383636924 source:c:\users\guillermo sandoval\documents\github\labsemana2animacion\enemygo.cpp
+	"Enemygo.h"
+
+1383636914 source:c:\users\guillermo sandoval\documents\github\labsemana2animacion\fantasmita.cpp
+	"Fantasmita.h"
+
+1383633945 c:\users\guillermo sandoval\documents\github\labsemana2animacion\fantasmita.h
+	"Enemygo.h"
+
+1383706818 source:c:\users\guillermo sandoval\documents\github\labsemana2animacion\main.cpp
+	"SDL.h"
+	"SDL_image.h"
+	"SDL_ttf.h"
+	<string>
+	<iostream>
+	<vector>
+	"Personaje.h"
+	"Enemygo.h"
+	"Fantasmita.h"
+	"bomba.h"
+	"Mina.h"
+	"Cocodrilo.h"
+	"SDL_mixer.h"
+
+1383634348 c:\users\guillermo sandoval\documents\github\labsemana2animacion\mina.h
+	"Enemygo.h"
+
+1383706799 source:c:\users\guillermo sandoval\documents\github\labsemana2animacion\mina.cpp
+	"Mina.h"
+
+1382746837 source:c:\users\guillermo sandoval\documents\github\labsemana2animacion\personaje.cpp
+	"Personaje.h"
+
