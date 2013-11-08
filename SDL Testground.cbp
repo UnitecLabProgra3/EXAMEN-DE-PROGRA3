@@ -44,6 +44,8 @@
 		<Unit filename="Personaje.h" />
 		<Unit filename="bomba.cpp" />
 		<Unit filename="bomba.h" />
+		<Unit filename="fuego.cpp" />
+		<Unit filename="fuego.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

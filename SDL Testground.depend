@@ -56,3 +56,68 @@
 1382746837 source:c:\users\guillermo sandoval\documents\github\labsemana2animacion\personaje.cpp
 	"Personaje.h"
 
+1383634348 source:c:\users\guillermo sandoval\documents\github\examen-de-progra3\bomba.cpp
+	"bomba.h"
+
+1383634273 c:\users\guillermo sandoval\documents\github\examen-de-progra3\bomba.h
+	"Enemygo.h"
+
+1383634278 c:\users\guillermo sandoval\documents\github\examen-de-progra3\enemygo.h
+	"SDL.h"
+	"SDL_image.h"
+	"Personaje.h"
+	<vector>
+
+1383634068 c:\users\guillermo sandoval\documents\github\examen-de-progra3\personaje.h
+	"SDL.h"
+	"SDL_image.h"
+	<string>
+	<vector>
+
+1383634356 source:c:\users\guillermo sandoval\documents\github\examen-de-progra3\cocodrilo.cpp
+	"Cocodrilo.h"
+
+1383634348 c:\users\guillermo sandoval\documents\github\examen-de-progra3\cocodrilo.h
+	"Enemygo.h"
+
+1383636924 source:c:\users\guillermo sandoval\documents\github\examen-de-progra3\enemygo.cpp
+	"Enemygo.h"
+
+1383636914 source:c:\users\guillermo sandoval\documents\github\examen-de-progra3\fantasmita.cpp
+	"Fantasmita.h"
+
+1383633945 c:\users\guillermo sandoval\documents\github\examen-de-progra3\fantasmita.h
+	"Enemygo.h"
+
+1383706799 source:c:\users\guillermo sandoval\documents\github\examen-de-progra3\mina.cpp
+	"Mina.h"
+
+1383634348 c:\users\guillermo sandoval\documents\github\examen-de-progra3\mina.h
+	"Enemygo.h"
+
+1382746837 source:c:\users\guillermo sandoval\documents\github\examen-de-progra3\personaje.cpp
+	"Personaje.h"
+
+1383898671 source:c:\users\guillermo sandoval\documents\github\examen-de-progra3\main.cpp
+	"SDL.h"
+	"SDL_image.h"
+	"SDL_ttf.h"
+	<string>
+	<sstream>
+	<iostream>
+	<vector>
+	"Personaje.h"
+	"Enemygo.h"
+	"Fantasmita.h"
+	"bomba.h"
+	"Mina.h"
+	"Cocodrilo.h"
+	"fuego.h"
+	"SDL_mixer.h"
+
+1383895686 c:\users\guillermo sandoval\documents\github\examen-de-progra3\fuego.h
+	"Enemygo.h"
+
+1383896830 source:c:\users\guillermo sandoval\documents\github\examen-de-progra3\fuego.cpp
+	"fuego.h"
+

@@ -6,6 +6,7 @@ and may not be redistributed without written permission.*/
 #include "SDL_image.h"
 #include "SDL_ttf.h"
 #include <string>
+#include <sstream>
 #include <iostream>
 #include <vector>
 #include "Personaje.h"
@@ -14,6 +15,7 @@ and may not be redistributed without written permission.*/
 #include "bomba.h"
 #include "Mina.h"
 #include "Cocodrilo.h"
+#include "fuego.h"
 #include "SDL_mixer.h"
 //using namespace std;
 
@@ -23,12 +25,15 @@ const int SCREEN_HEIGHT = 600;
 const int SCREEN_BPP = 32;
 
 //The surfaces
+SDL_Surface *startStop = NULL;
+SDL_Surface *pauseMessage = NULL;
 SDL_Surface *background = NULL;
 SDL_Surface *up = NULL;
 SDL_Surface *down = NULL;
 SDL_Surface *left = NULL;
 SDL_Surface *right = NULL;
 SDL_Surface *screen = NULL;
+SDL_Surface *seconds = NULL;
 
 //The event structure
 SDL_Event event;
@@ -38,6 +43,36 @@ TTF_Font *font = NULL;
 
 //The color of the font
 SDL_Color textColor = { 0, 0, 0 };
+class Timer
+{
+    private:
+    //The clock time when the timer started
+    int startTicks;
+
+    //The ticks stored when the timer was paused
+    int pausedTicks;
+
+    //The timer status
+    bool paused;
+    bool started;
+
+    public:
+    //Initializes variables
+    Timer();
+
+    //The various clock actions
+    void start();
+    void stop();
+    void pause();
+    void unpause();
+
+    //Gets the timer's time
+    int get_ticks();
+
+    //Checks the status of the timer
+    bool is_started();
+    bool is_paused();
+};
 
 SDL_Surface *load_image( std::string filename )
 {
@@ -129,6 +164,97 @@ void clean_up()
     //Quit SDL
     SDL_Quit();
 }
+Timer::Timer()
+{
+    //Initialize the variables
+    startTicks = 0;
+    pausedTicks = 0;
+    paused = false;
+    started = false;
+}
+
+void Timer::start()
+{
+    //Start the timer
+    started = true;
+
+    //Unpause the timer
+    paused = false;
+
+    //Get the current clock time
+    startTicks = SDL_GetTicks();
+}
+
+void Timer::stop()
+{
+    //Stop the timer
+    started = false;
+
+    //Unpause the timer
+    paused = false;
+}
+
+void Timer::pause()
+{
+    //If the timer is running and isn't already paused
+    if( ( started == true ) && ( paused == false ) )
+    {
+        //Pause the timer
+        paused = true;
+
+        //Calculate the paused ticks
+        pausedTicks = SDL_GetTicks() - startTicks;
+    }
+}
+
+void Timer::unpause()
+{
+    //If the timer is paused
+    if( paused == true )
+    {
+        //Unpause the timer
+        paused = false;
+
+        //Reset the starting ticks
+        startTicks = SDL_GetTicks() - pausedTicks;
+
+        //Reset the paused ticks
+        pausedTicks = 0;
+    }
+}
+
+int Timer::get_ticks()
+{
+    //If the timer is running
+    if( started == true )
+    {
+        //If the timer is paused
+        if( paused == true )
+        {
+            //Return the number of ticks when the timer was paused
+            return pausedTicks;
+        }
+        else
+        {
+            //Return the current time minus the start time
+            return SDL_GetTicks() - startTicks;
+        }
+    }
+
+    //If the timer isn't running
+    return 0;
+}
+
+bool Timer::is_started()
+{
+    return started;
+}
+
+bool Timer::is_paused()
+{
+    return paused;
+}
+
 
 int main( int argc, char* args[] )
 {
@@ -146,6 +272,15 @@ int main( int argc, char* args[] )
     {
         return 1;
     }
+     //Make the timer
+    Timer myTimer;
+
+    //Generate the message surfaces
+    startStop = TTF_RenderText_Solid( font, "Press S to start or stop the timer", textColor );
+    pauseMessage = TTF_RenderText_Solid( font, "Press P to pause or unpause the timer", textColor );
+
+    //Start the timer
+    myTimer.start();
 
     Personaje *personaje=new Personaje(0 ,0);
     SDL_Surface* meta=load_image("meta.png");
@@ -165,10 +300,11 @@ int main( int argc, char* args[] )
     enemigos.push_back(new bomba(personaje));
     enemigos.push_back(new Cocodrilo(personaje));
     enemigos.push_back(new Mina(personaje));
+    enemigos.push_back(new fuego(personaje));
     bool jugar=false;
     bool gano=false;
     bool perdio=false;
-    int duracion_animacion=2;
+    int duracion_animacion=10;
     int cuadro_actual=0;
     int iteracion=0;
     int menu=0;
@@ -195,6 +331,7 @@ int main( int argc, char* args[] )
                 quit = true;
             }
         }
+
     Uint8 *keystates = SDL_GetKeyState( NULL );
 
         if (menu==0||menu==1||menu==3&&jugar==false&&seleccion==0&&perdio==false&&gano==false)
@@ -254,6 +391,7 @@ int main( int argc, char* args[] )
             apply_surface(personaje->x,personaje->y,personaje->sprites[0],screen);
 
         for (int i=0 ;i<enemigos.size();i++){
+        if (cuadro_actual>0)
         enemigos[i]->sprites[0]=enemigos[i]->sprites[cuadro_actual];
         enemigos[i]->Dibujar(screen);
                 }
@@ -446,10 +584,83 @@ int main( int argc, char* args[] )
             personaje->x=0;
            personaje->y=0;
         }
+        if (jugar==true){
+         while( SDL_PollEvent( &event ) )
+        {
+            //If a key was pressed
+            if( event.type == SDL_KEYDOWN )
+            {
+                //If s was pressed
+                if( event.key.keysym.sym == SDLK_s )
+                {
+                    //If the timer is running
+                    if( myTimer.is_started() == true )
+                    {
+                        //Stop the timer
+                        myTimer.stop();
+                    }
+                    else
+                    {
+                        //Start the timer
+                        myTimer.start();
+                    }
+                }
+                //If p was pressed
+                if( event.key.keysym.sym == SDLK_p )
+                {
+                    //If the timer is paused
+                    if( myTimer.is_paused() == true )
+                    {
+                        //Unpause the timer
+                        myTimer.unpause();
+                    }
+                    else
+                    {
+                        //Pause the timer
+                        myTimer.pause();
+                    }
+                }
+            }
+
+            //If the user has Xed out the window
+            else if( event.type == SDL_QUIT )
+            {
+                //Quit the program
+                quit = true;
+            }
+        }
+
+        //Apply the background
 
 
+        //Apply the messages
+        apply_surface(  1000, 1000, startStop, screen );
+        apply_surface( 1000, 1000, pauseMessage, screen );
 
-       }
+        //The timer's time as a string
+        std::stringstream time;
+
+        //Convert the timer's time to a string
+        time << "Timer: " << myTimer.get_ticks() / 1000.f;
+
+        //Render the time surface
+        seconds = TTF_RenderText_Solid( font, time.str().c_str(), textColor );
+
+        //Apply the time surface
+        apply_surface( ( SCREEN_WIDTH - seconds->w ) / 2, 0, seconds, screen );
+
+        //Free the time surface
+        SDL_FreeSurface( seconds );
+
+        //Update the screen
+        if( SDL_Flip( screen ) == -1 )
+        {
+            return 1;
+        }
+    }
+    }
+
+
 
 
 
